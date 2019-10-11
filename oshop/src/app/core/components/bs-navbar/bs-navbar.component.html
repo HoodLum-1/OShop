@@ -3,15 +3,15 @@
       <a class="navbar-brand" routerLink="/">O-Shop
         <i class="fa fa-book"></i>
       </a>
-      <button class="navbar-toggler" type="button" (click)="isNavbarCollapsed = !isNavbarCollapsed" data-toggle="collapse" data-target="#navbarsExampleDefault" 
-        aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+      <button #navbarToggler class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" 
+        aria-controls="navbarsExampleDefault" (click)="show = !show" [attr.aria-expanded]="show" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
     
-      <div [ngbCollapse]="isNavbarCollapsed" class="collapse navbar-collapse" id="navbarsExampleDefault">
+      <div class="collapse navbar-collapse" [ngClass]="{ 'show': show }" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
-            <a class="nav-link" routerLink="/shopping-cart">
+            <a class="nav-link" (click)="show = false" routerLink="/shopping-cart">
               <i class="fa fa-shopping-cart" aria-hidden="true"></i>
               <span class="badge badge-warning badge-pill" *ngIf="cart$ | async as cart">
                 {{ cart.totalItemsCount }}
@@ -19,7 +19,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" routerLink="/products">Products
+            <a class="nav-link" (click)="show = false" routerLink="/products">Products
               <i class="fa fa-list"></i>
             </a>
           </li>
@@ -27,10 +27,10 @@
         <ul class="navbar-nav">
             <ng-template #anonymousUser>
               <li class="nav-item">
-                <a class="nav-link" routerLink="/login">Login</a>
+                <a class="nav-link" (click)="show = false" routerLink="/login">Login</a>
               </li>
               <li class="nav-item">
-                  <a class="nav-link" routerLink="/signup">Register</a>
+                  <a class="nav-link" (click)="show = false" routerLink="/signup">Register</a>
                 </li>
             </ng-template>
             <li ngbDropdown *ngIf="appUser; else anonymousUser" class="nav-item dropdown">
@@ -38,12 +38,12 @@
                 {{ appUser.name }}
               </a>
               <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="dropdown01">
-                <a class="dropdown-item" routerLink="/my-orders">My Orders</a>
+                <a class="dropdown-item" (click)="show = false" routerLink="/my-orders">My Orders</a>
                 <ng-container *ngIf="appUser.isAdmin">
-                  <a class="dropdown-item" routerLink="/admin/orders">Manage Orders</a>
-                  <a class="dropdown-item" routerLink="/admin/products">Manage Products</a>
+                  <a class="dropdown-item" (click)="show = false" routerLink="/admin/orders">Manage Orders</a>
+                  <a class="dropdown-item" (click)="show = false" routerLink="/admin/products">Manage Products</a>
                 </ng-container>
-                <a class="dropdown-item" (click)="logout()">Log Out</a>
+                <a class="dropdown-item" (click)="show = false" (click)="logout()">Log Out</a>
               </div>
             </li>
           </ul>
